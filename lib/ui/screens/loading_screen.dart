@@ -11,13 +11,13 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  Future<void> getLocation() async {
+  void getLocation() async {
 //    print("hey1");
 //    Position position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
 //    print("hey");
 //    print(position);
 
-      StreamSubscription<LocationResult> subscription =
+      StreamSubscription<LocationResult> subscription = await
           Geolocation.currentLocation(accuracy: LocationAccuracy.best)
               .listen((result) {
         if (result.isSuccessful) {
@@ -28,18 +28,18 @@ class _LoadingScreenState extends State<LoadingScreen> {
       });
   }
 
+
+  @override
+  void initState() {
+    super.initState();
+    getLocation();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            print("kjk");
-            //Get the current location
-            getLocation();
-          },
-          child: Text('Get Location'),
-        ),
+      
       ),
     );
   }
