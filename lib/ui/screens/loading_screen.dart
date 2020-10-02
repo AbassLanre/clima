@@ -1,9 +1,10 @@
-import 'dart:async';
-
+import 'package:clima/ui/screens/location_screen.dart';
+import 'package:clima/ui/services/location.dart';
+import 'package:clima/ui/services/networking.dart';
 import 'package:flutter/material.dart';
-import 'package:new_geolocation/geolocation.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-//import 'package:geolocator/geolocator.dart';
+const apiKey = 'b062ace237380dec4fb6ddf95d68b733';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -11,35 +12,36 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  void getLocation() async {
-//    print("hey1");
-//    Position position = await getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
-//    print("hey");
-//    print(position);
 
-      StreamSubscription<LocationResult> subscription = await
-          Geolocation.currentLocation(accuracy: LocationAccuracy.best)
-              .listen((result) {
-        if (result.isSuccessful) {
-          double latitude = result.location.latitude;
-          double longitude = result.location.longitude;
-          print({latitude, longitude});
-        }
-      });
+  void getLocationData() async {
+    MyLocation myLocation = MyLocation();
+    await myLocation.getCurrentLocation();
+
+    NetworkHelper networkHelper = NetworkHelper(
+        'https://api.openweathermap.org/data/2.5/weather?lat=${myLocation.latitude}&lon=${myLocation.longitude}&appid=$apiKey&units=metric');
+    var weatherData = await networkHelper.getData();
+
+    Navigator.push(context,MaterialPageRoute(builder:  (_){
+      print('i came here');
+      return LocationScreen(locationWeatherData: weatherData);
+    }));
   }
-
 
   @override
   void initState() {
     super.initState();
-    getLocation();
+    getLocationData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-      
+        child:
+          SpinKitDoubleBounce(
+            color: Colors.white,
+            size: 100.0,
+          )
       ),
     );
   }
