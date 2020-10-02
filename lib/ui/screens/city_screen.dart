@@ -18,6 +18,7 @@ class _CityScreenState extends State<CityScreen> {
             fit: BoxFit.cover,
           ),
         ),
+        //check here
         constraints: BoxConstraints.expand(),
         child: SafeArea(
           child: Column(
