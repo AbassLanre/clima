@@ -2,7 +2,7 @@ import 'package:clima/ui/services/location.dart';
 import 'package:clima/ui/services/networking.dart';
 
 
-const apiKey = 'b062ace237380dec4fb6ddf95d68b733';
+const apiKey = 'lol';
 const apiURL = 'https://api.openweathermap.org/data/2.5/weather';
 
 // apiURL?q={city name}&appid=$apiKey&units=metric
